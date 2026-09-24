@@ -1,6 +1,9 @@
 **Assignment 2 — Data Acquisition and Preprocessing**
+
 **Course:** Data Acquisition & Data Preparation
+
 **Author:** Rumana Khatun
+
 **Date:** 22SEP2026
 
 ## Project Overview

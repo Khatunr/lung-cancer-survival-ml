@@ -1,114 +1,48 @@
-**Assignment 2 — Data Acquisition and Preprocessing**
+# Lung Cancer Survival Group Prediction — Assignment 4
 
-**Course:** Data Acquisition & Data Preparation
-
-**Author:** Rumana Khatun
-
-**Date:** 22SEP2026
-
-## Project Overview
-
-This repository contains the data acquisition and preprocessing pipeline for a
-capstone project that predicts individual lung cancer patient survival outcomes
-using machine learning. Patients are classified into two survival categories:
-
-- **Short-Term Survivor:** survival < 60 months
-- **Long-Term Survivor:** survival ≥ 60 months
-
-The cleaned dataset produced here will be used in the subsequent modeling stage.
-
----
+## Objective
+Train and compare baseline supervised binary classifiers to predict `Survival_Group` (`Short-Term` or `Long-Term`) using the cleaned dataset from Assignment 3.
 
 ## Dataset
+- File: `cleaned_dataset_assignment3.csv`
+- Rows and columns in the uploaded file: 23,658 rows × 57 columns.
+- Target distribution:
+  - Long-Term: 11,948 (50.50%)
+  - Short-Term: 11,710 (49.50%)
+- Missing values in the uploaded CSV: 0
+- Duplicate rows in the uploaded CSV: 0
 
-- **Source:** [Kaggle — Lung Cancer Prediction](https://www.kaggle.com/datasets/rashadmammadov/lung-cancer-prediction)
-- **Author:** Rashad Mammadov
-- **Size:** 23,658 rows × 38 columns
-- **Cleaned file:** `data/lung_cancer_cleaned.csv`
+## Methods
+- Train/test split: 80% training / 20% test, stratified by target, `random_state=42`.
+- Numeric preprocessing: median imputation and standard scaling.
+- Categorical preprocessing: most-frequent imputation and one-hot encoding.
+- Preprocessing is inside scikit-learn pipelines to avoid fitting transformations on the test set.
+- Raw `Stage`, `Treatment`, `Gender`, and `Smoking_History` columns are excluded because corresponding encoded columns already exist.
+- Baseline models: Logistic Regression; Decision Tree (`max_depth=8`, `min_samples_leaf=20`); K-Nearest Neighbors (`n_neighbors=15`, distance weighting).
 
-The dataset contains demographic, clinical, treatment, comorbidity, and
-laboratory variables for lung cancer patients.
+## Held-out test results
+| Model | Accuracy | Macro precision | Macro recall | Macro F1 | Long-Term F1 | Short-Term F1 | Long-Term ROC-AUC |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.4989 | 0.4981 | 0.4982 | 0.4955 | 0.5370 | 0.4541 | 0.5027 |
+| Decision Tree | 0.4939 | 0.4909 | 0.4921 | 0.4760 | 0.5727 | 0.3794 | 0.4984 |
+| K-Nearest Neighbors | 0.4934 | 0.4934 | 0.4934 | 0.4934 | 0.5001 | 0.4866 | 0.4979 |
 
----
+## Interpretation
+The strongest macro-F1 among these baseline runs was achieved by **Logistic Regression** (0.4955). Nevertheless, test accuracy and ROC-AUC are close to 0.50, suggesting that the current feature set provides little useful separation between the two labels in this experiment. These models should not be treated as clinically useful or validated predictors.
 
-## Preprocessing Summary
+## Run the notebook
+1. Place `Assignment_4_Baseline_Models.ipynb` in the `Assignment_4` folder.
+2. Keep `cleaned_dataset_assignment3.csv` in the same folder as the notebook, or update `DATA_PATH` in the notebook.
+3. Install dependencies if needed: `pandas`, `numpy`, `matplotlib`, `scikit-learn`, `jupyter`.
+4. Run all cells from top to bottom.
 
-1. **Data quality assessment** — Checked missing values, duplicates, and data types.
-   Result: 0 missing values, 0 duplicates, no data type issues.
+## Limitations and future work
+- Check how `Survival_Group` was created and whether it is meaningful and reliable.
+- Verify that each predictor would be available at the intended prediction time.
+- Compare with a majority-class baseline and tune hyperparameters using cross-validation.
+- Examine class-specific errors and validate on independent data if available.
+- These are educational baseline models, not a clinical decision-support system.
 
-2. **Summary statistics** — Applied describe().T to all numerical variables.
-   Result: All values fall within plausible ranges.
+## Reproducibility
+Random seed: 42. Test size: 20%. The results in this README were generated from the uploaded CSV with the settings listed above. Re-run the notebook if the dataset or settings change.
 
-3. **Missing values** — Analysis only; no treatment performed.
-   Result: No imputation required.
-
-4. **Outlier detection** — Applied the IQR method (1.5 × IQR rule) to all numerical variables.
-   Result: 0 outliers detected.
-
-5. **Target creation** — Derived the binary survival outcome from Survival_Months.
-   Result: Survival_Months < 60 → Short-Term (11,710 patients);
-   Survival_Months ≥ 60 → Long-Term (11,948 patients).
-
-6. **Cleaning** — Removed Patient_ID and Survival_Months from the predictor set.
-   Result: Avoids ID noise and target leakage.
-
-7. **Train/Test split** — 80/20 stratified split with random_state=42.
-   Result: Split performed before encoding and scaling.
-
-8. **Encoding** — Applied one-hot encoding (drop_first=True) fitted on the training set only.
-   Result: Test set columns aligned to training schema.
-
-9. **Scaling** — Applied StandardScaler fitted on the training set only.
-   Result: Same transformation applied to both training and test sets.
-
-10. **Save** — Wrote the final cleaned dataset to disk.
-    Result: Single file saved as data/lung_cancer_cleaned.csv.
-
----
-
-## How to Reproduce
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/YOUR-USERNAME/lung-cancer-survival-ml.git
-cd lung-cancer-survival-ml
-2. Install dependencies
-bash
-pip install pandas numpy matplotlib seaborn scikit-learn jupyter
-3. Launch Jupyter
-bash
-jupyter notebook
-4. Open the notebook
-Navigate to notebooks/Assignment_2_Data_Preprocessing.ipynb and run all cells
-top to bottom.
-
-The cleaned dataset will be written to data/lung_cancer_cleaned.csv.
-
-Methodology Notes
-Avoiding Target Leakage
-Survival_Months was used to construct the target Survival_Group. It was
-removed from the predictor set to prevent the model from being trained on
-information that would not be available at prediction time.
-
-Split Before Preprocessing
-The train/test split was performed before encoding and scaling.
-Transformers were fitted on the training set only and applied to the test set.
-This prevents information leakage from the test set into the training pipeline.
-
-No Imputation Was Needed
-All 38 original variables contained zero missing values. No imputation was
-performed because fabricating missing-data treatment would be methodologically
-incorrect.
-
-No Outliers Were Removed
-The IQR method identified zero outliers across all numerical variables.
-No records were removed.
-
-License
-Code and notebook: MIT License
-
-Dataset: Subject to the original Kaggle license. See the Kaggle page for terms.
-
-Acknowledgments
-Dataset provided by Rashad Mammadov via Kaggle.

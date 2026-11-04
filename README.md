@@ -265,19 +265,53 @@ Random seed: 42. Test size: 20%. The results in this README were generated from 
 
 ## Assignment 5: Advanced Modeling, Optimization, and Evaluation
 
-### Optimization (Model Tuning)
-- **Algorithms:** Implemented Random Forest and Gradient Boosting ensembles.
-- **Hyperparameter Tuning:** Used `GridSearchCV` with 5-fold Stratified Cross-Validation to optimize the Random Forest. We tuned `n_estimators`, `max_depth`, and `min_samples_split`.
+### Objective
+The objective of this assignment was to improve upon the baseline
+classification models through ensemble learning, hyperparameter
+optimization, cross-validation, and model explainability.
 
-### Evaluation and Explainability
-- **Cross-Validation:** 5-fold CV confirmed stable performance, though still near the ~50% chance level.
-- **Explainability (SHAP):** Generated SHAP Summary Plots to interpret feature importance. The results showed that no features had a strong impact on predictions.
-- **Data Diagnostic:** A check on Cancer Stage vs. Survival revealed that Stage I and Stage IV both had ~50% survival rates. This proves the dataset is synthetic and lacks biological signal.
-- **Model Selection:** No model was selected for deployment due to chance-level performance.
+### Models
+- Random Forest Classifier
+- Gradient Boosting Classifier
 
-### How to Run Assignment 5
-1. Navigate to `notebooks/Assignment_5_Advanced_Modeling.ipynb`.
-2. Ensure `shap` is installed (`pip install shap`).
-3. Run all cells to reproduce the tuning, cross-validation, and SHAP plots.
-4. View `model_comparison.csv` and `shap_summary.png` in the `results/` folder.
+### Hyperparameter Optimization
+GridSearchCV with 5-fold Stratified Cross-Validation was used
+to optimize the Random Forest model.
+
+The tuned parameters included:
+- n_estimators
+- max_depth
+- min_samples_split
+
+Best Parameters: {'model__max_depth': 20, 'model__min_samples_split': 5, 'model__n_estimators': 200}
+Best CV Macro-F1: 0.5047
+Tuned RF Test Accuracy: 0.5030
+Tuned RF Test Macro-F1: 0.5013
+
+Best Cross-Validation Score:
+Average CV Accuracy: 0.5067
+Average CV F1: 0.5047
+F1 Standard Deviation: 0.0083
+
+### Model Evaluation
+The optimized models were evaluated using:
+- Accuracy
+- Macro Precision
+- Macro Recall
+- Macro F1-score
+- ROC-AUC
+
+Results are summarized in `results/model_comparison.csv`.
+
+### Model Explainability
+- SHAP Summary Plot: `results/shap_summary.png`
+- LIME Explanation: `results/lime_explanation.png`
+
+The explainability analysis was used to examine how individual
+features contributed to model predictions.
+
+### Conclusion
+The advanced models did not demonstrate meaningful predictive
+performance beyond chance-level classification. Therefore,
+no model was recommended for clinical deployment.
 

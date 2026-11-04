@@ -1,5 +1,6 @@
 
 # Lung Cancer Survival Prediction (Machine Learning)
+## Assignment 1: Project Proposal and Overview
 
 ## Project Overview
 This repository contains the baseline machine learning models for predicting lung cancer survival groups (Long-Term vs. Short-Term) based on the Kaggle Lung Cancer Prediction dataset (23,658 records). 

@@ -1,5 +1,5 @@
-# Lung Cancer Survival Group Prediction — Assignment 4
-
+# Lung Cancer Survival Group Prediction
+## Assignment 4: Baseline Modeling
 ## Objective
 Train and compare baseline supervised binary classifiers to predict `Survival_Group` (`Short-Term` or `Long-Term`) using the cleaned dataset from Assignment 3.
 

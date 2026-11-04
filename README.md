@@ -46,3 +46,21 @@ The strongest macro-F1 among these baseline runs was achieved by **Logistic Regr
 ## Reproducibility
 Random seed: 42. Test size: 20%. The results in this README were generated from the uploaded CSV with the settings listed above. Re-run the notebook if the dataset or settings change.
 
+## Assignment 5: Advanced Modeling, Optimization, and Evaluation
+
+### Optimization (Model Tuning)
+- **Algorithms:** Implemented Random Forest and Gradient Boosting ensembles.
+- **Hyperparameter Tuning:** Used `GridSearchCV` with 5-fold Stratified Cross-Validation to optimize the Random Forest. We tuned `n_estimators`, `max_depth`, and `min_samples_split`.
+
+### Evaluation and Explainability
+- **Cross-Validation:** 5-fold CV confirmed stable performance, though still near the ~50% chance level.
+- **Explainability (SHAP):** Generated SHAP Summary Plots to interpret feature importance. The results showed that no features had a strong impact on predictions.
+- **Data Diagnostic:** A check on Cancer Stage vs. Survival revealed that Stage I and Stage IV both had ~50% survival rates. This proves the dataset is synthetic and lacks biological signal.
+- **Model Selection:** No model was selected for deployment due to chance-level performance.
+
+### How to Run Assignment 5
+1. Navigate to `notebooks/Assignment_5_Advanced_Modeling.ipynb`.
+2. Ensure `shap` is installed (`pip install shap`).
+3. Run all cells to reproduce the tuning, cross-validation, and SHAP plots.
+4. View `model_comparison.csv` and `shap_summary.png` in the `results/` folder.
+

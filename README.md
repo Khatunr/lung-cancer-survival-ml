@@ -100,7 +100,7 @@ laboratory variables for lung cancer patients.
 
 ### 1. Clone the repository
 
-```bash
+bash
 git clone https://github.com/YOUR-USERNAME/lung-cancer-survival-ml.git
 cd lung-cancer-survival-ml
 2. Install dependencies
@@ -314,4 +314,30 @@ features contributed to model predictions.
 The advanced models did not demonstrate meaningful predictive
 performance beyond chance-level classification. Therefore,
 no model was recommended for clinical deployment.
+
+# Assignment 6 — Deployment, Dashboard, and Data Storytelling
+
+## Files
+- `Assignment_6_TCGA_Deployment.ipynb`: complete analysis, plots, model comparison, SMOTENC experiment, and model export.
+- `app.py`: Streamlit dashboard and illustrative prediction interface.
+- `Lung_cancer_data.csv.csv`: place the uploaded TCGA CSV in this folder.
+- `requirements.txt`: Python dependencies.
+
+## Run the notebook
+1. Install dependencies: `pip install -r requirements.txt`
+2. Put `Lung_cancer_data.csv.csv` beside the notebook.
+3. Run all notebook cells in order.
+4. The notebook exports `lung_cancer_survival_pipeline.joblib` and `assignment6_model_comparison.csv`.
+
+## Run Streamlit
+After running the notebook:
+`streamlit run app.py`
+
+## Outcome definition and limitations
+- Long-Term: overall survival time >= 60 months.
+- Short-Term: survival time < 60 months and status says `1:DECEASED`.
+- Living patients with <60 months follow-up are treated as right-censored/unknown and excluded from binary classification.
+- Outcome fields are never predictors.
+- SMOTENC is applied only within training pipeline; holdout test data is not resampled.
+- This is a classroom prototype, not a clinical prediction tool. Treatment timing, censoring, sample size, class imbalance, and external validity limit interpretation.
 
